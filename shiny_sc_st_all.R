@@ -150,6 +150,54 @@ Load_previous_results = function(previous_results_path=NULL){
   }
 }
 # ui--------------------------------------------------------------------------------------------------------------------------------------------
+step_sc_continue_fluidRow<-shiny::fluidRow(
+  style = "margin-left: 5px;",
+  shiny::column(12,align = "left",
+         h4("Continue Previous Analysis"),
+         actionButton("sc_continue_back_btn","Back to Prior Page",style = "width: 85%;",
+                      class = "btn-primary btn-lg"),
+         numericInput("jobid","Enter your Job ID",value = NULL,width="95%"),
+         selectInput("continue_step","Choose a step to analyze",width="95%",
+                     choices = c(
+                       #"Step 1. Input Data",
+                       "Step 2. Quality Control" = "step 2",
+                       "Step 3. Clustering" = "step 3",
+                       "Step 4. Identify Cell Types" = "step 4",
+                       "Step 5. Visualization" = "step 5",
+                       "Step 6. Find DEGs" = "step 6",
+                       "Step 7. Assign Cell Cycles" = "step 7",
+                       "Step 8. Calculate Heterogeneity" = "step 8",
+                       "Step 9. Violin Plot for Marker Genes" = "step 9",
+                       "Step 10. Calculate Lineage Scores" = "step 10",
+                       "Step 11. GSVA" = "step 11",
+                       "Step 12. Construct Trajectories" = "step 12",
+                       "Step 13. TF Analysis" = "step 13",
+                       "Step 14. Cell-Cell Interaction" = "step 14",
+                       "Step 15. Generate the Report" = "step 15"
+                     ),selected = "step 2")
+  ))
+step_st_continue_fluidRow<-shiny::fluidRow(
+  style = "margin-left: 5px;",
+  shiny::column(12,align = "left",
+         h4("Continue Previous Analysis"),
+         actionButton("st_continue_back_btn","Back to Prior Page",style = "width: 85%;",
+                      class = "btn-primary btn-lg"),
+         numericInput("st_jobid","Enter your Job ID",value = 0,width = "95%"),#要是数字输入不然会报错
+         selectInput("st_continue_step","Choose a step to analyze",width = "95%",
+                     choices = c(
+                       #"Step 1. Input Data",
+                       "Step 2. Quality Control" = "step 2",
+                       "Step3. Normalization, PCA and Clustering" = "step 3",
+                       "Step4. Differential expressed genes" = "step 4",
+                       "Step5. Spatially variable features" = "step 5",
+                       "Step6. Spatial interaction" = "step 6",
+                       "Step 7. CNV analysis" = "step 7",
+                       "Step8. Deconvolution" = "step 8",
+                       "Step9. Cellcycle" = "step 9",
+                       "Step10. Niche analysis" = "step 10",
+                       "Step11. Generate the Report" = "step 11"
+                     ),selected = "step 2")
+  ))
 ui <- fluidPage(
   shinyjs::useShinyjs(),  
   # ui1
@@ -159,7 +207,7 @@ ui <- fluidPage(
         column(3, align = "center", imageOutput('logo'))
       ),
       fluidRow(
-        column(12, align = "center", h1("HemaScopeR: A Specialized Bioinformatics Toolkit Designed for Analyzing both Single-cell and Spatial Transcriptome Sequencing Data from Hematopoietic Cells", 
+        column(12, align = "center", h1("HemaScope: a user-friendly and modular design toolkit tailored for analyzing single-cell and spatial transcriptome sequencing data of hematopoietic cells", 
                                         class = "h1-font",style = "font-family: 'arial'; font-size: 28pt;font-weight: bold;"))
       ),
       fluidRow(div(class = "spacer")),  # empty line
@@ -664,34 +712,6 @@ step15_fluidRow <- fluidRow(
     div(class = "spacer"),  
     uiOutput("step15_completed"))
 )
-
-step_sc_continue_fluidRow<-fluidRow(
-  style = "margin-left: 10px;",
-  column(8,align = "left",
-         h3("Continue Previous Analysis"),
-         actionButton("sc_continue_back_btn","Back to Prior Page",style = "width: 25%;",
-                      class = "btn-primary btn-lg"),
-         numericInput("jobid","Enter your Job ID",value = NULL),#要是数字输入不然会报错
-         selectInput("continue_step","Choose a step you want analysize",
-                     choices = c(
-                       #"Step 1. Input Data",
-                       "Step 2. Quality Control" = "step 2",
-                       "Step 3. Clustering" = "step 3",
-                       "Step 4. Identify Cell Types" = "step 4",
-                       "Step 5. Visualization" = "step 5",
-                       "Step 6. Find DEGs" = "step 6",
-                       "Step 7. Assign Cell Cycles" = "step 7",
-                       "Step 8. Calculate Heterogeneity" = "step 8",
-                       "Step 9. Violin Plot for Marker Genes" = "step 9",
-                       "Step 10. Calculate Lineage Scores" = "step 10",
-                       "Step 11. GSVA" = "step 11",
-                       "Step 12. Construct Trajectories" = "step 12",
-                       "Step 13. TF Analysis" = "step 13",
-                       "Step 14. Cell-Cell Interaction" = "step 14",
-                       "Step 15. Generate the Report" = "step 15"
-                     ),selected = "step 2")
-  ))
-
 #ST UI step1-11
 step1_fluidRow_st <- fluidRow(
   style = "margin-left: 10px;",
@@ -951,34 +971,10 @@ step11_fluidRow_st <- fluidRow(
     div(class = "spacer"),  
     uiOutput("step11_completed"))
 )
-
-step_st_continue_fluidRow<-fluidRow(
-  style = "margin-left: 10px;",
-  column(8,align = "left",
-         h3("Continue Previous Analysis"),
-         actionButton("st_continue_back_btn","Back to Prior Page",style = "width: 25%;",
-                      class = "btn-primary btn-lg"),
-         numericInput("st_jobid","Enter your Job ID",value = 0),#要是数字输入不然会报错
-         selectInput("st_continue_step","Choose a step you want analysize",
-                     choices = c(
-                       #"Step 1. Input Data",
-                       "Step 2. Quality Control" = "step 2",
-                       "Step3. Normalization, PCA and Clustering" = "step 3",
-                       "Step4. Differential expressed genes" = "step 4",
-                       "Step5. Spatially variable features" = "step 5",
-                       "Step6. Spatial interaction" = "step 6",
-                       "Step 7. CNV analysis" = "step 7",
-                       "Step8. Deconvolution" = "step 8",
-                       "Step9. Cellcycle" = "step 9",
-                       "Step10. Niche analysis" = "step 10",
-                       "Step11. Generate the Report" = "step 11"
-                     ),selected = "step 2")
-  ))
-
 # server---------------------------------------------------------------------------------------------------------------------------------
 server = function(input, output, session){
   output$logo <- renderImage({
-    list(src = '../images/hemascoper_logo.png') #加载特定位置下的图片
+    list(src = '../images/HemaScope_logo.png',width="80%") #加载特定位置下的图片
   }, deleteFile = FALSE) #加载后不删除
   
   output$ui_styles <- renderUI({
@@ -1092,11 +1088,6 @@ server = function(input, output, session){
     shinyjs::hide("ui2")
     shinyjs::hide("ui2.1")
     shinyjs::show("ui2.2")
-    output$dynamic_ui<-renderUI(
-      {
-        step_sc_continue_fluidRow
-      }
-    )
   })
   observeEvent(input$sc_continue_back_btn,{
     shinyjs::show("ui2.1")
@@ -3557,12 +3548,6 @@ server = function(input, output, session){
     shinyjs::hide("ui3")
     shinyjs::hide("ui3.1")
     shinyjs::show("ui3.2")
-    output$dynamic_st_ui<-renderUI(
-      {
-        step_st_continue_fluidRow
-      }
-      
-    )
   })
   observeEvent(input$st_continue_back_btn,{
     shinyjs::hide("ui3.2")
@@ -4703,7 +4688,7 @@ server = function(input, output, session){
       }
     )
     #show figures
-    img_dir <- file.path(output.dir,'Step8_Deconvolution')
+    img_dir <- file.path(output.dir,'Step8_Deconvolution/png')
     images <- list.files(img_dir, pattern = "\\.png$", full.names = TRUE)
     if(length(images)!=0){
       output$st_step8_plot<-renderSlickR({
@@ -4834,7 +4819,7 @@ server = function(input, output, session){
       }
     )
     #show figures
-    img_dir <- file.path(output.dir,'Step9_Cellcycle')
+    img_dir <- file.path(output.dir,'Step9_Cellcycle/png')
     images <- list.files(img_dir, pattern = "\\.png$", full.names = TRUE)
     if(length(images)!=0){
       output$st_step9_plot<-renderSlickR({
@@ -4851,6 +4836,7 @@ server = function(input, output, session){
   })
   
   # Step10. Niche analysis---------------------------------------------------------------------------------
+  Nich.cluster.n.temp<-reactiveVal(NULL)
   observeEvent(input$RunStep10_st, {
     
     if(is.null(input$st_jobid)){
@@ -4978,7 +4964,7 @@ server = function(input, output, session){
       }
     )
     #show figures
-    img_dir <- file.path(output.dir,'Step10_NicheAnalysis')
+    img_dir <- file.path(output.dir,'Step10_NicheAnalysis/png')
     images <- list.files(img_dir, pattern = "\\.png$", full.names = TRUE)
     if(length(images)!=0){
       output$st_step10_plot<-renderSlickR({
@@ -5032,9 +5018,10 @@ server = function(input, output, session){
     
     #### Generate the report ####
     print('Generating the report...')
+    genReport<-TRUE
     if(genReport){
-      knitr::knit(file.path(system.file(package = "HemaScopeR"), "rmd/st_base.Rmd"),
-                  file.path(output.dir.final, 'st_pipeline.md'))
+      #knitr::knit(file.path(system.file(package = "HemaScopeR"), "rmd/st_base.Rmd"),
+                  #file.path(output.dir.final, 'st_pipeline.md'))
       markdown::markdownToHTML(file.path(output.dir.final, 'st_pipeline.md'),
                                file.path(output.dir.final, 'st_pipeline.html'))
     }
